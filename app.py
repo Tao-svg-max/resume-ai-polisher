@@ -6,7 +6,7 @@ from pypdf import PdfReader    # pip install pypdf
 import docx                    # pip install python-docx
 
 # ====== 通义千问 API Key 配置不变 ======
-api_key = "sk-ws-H.ELPDRYH.Wrxf.MEQCIBFzUJY5HFYb69ZxAJvcntgmfZDFtheeY_i7bFsJrboxAiAd4Y8uMexHuqq5ycZ79Ut40eEPiNDuwzUWT6fNu9ewGg"
+api_key = st.secrets["DASHSCOPE_API_KEY"]
 
 def call_qwen_resume_enhancer(raw_resume, job_role, polish_focus):
     """
