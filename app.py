@@ -6,7 +6,7 @@ import docx
 from io import BytesIO
 import os
 
-st.set_page_config(page_title="AI 简历极速润色专家")
+st.set_page_config(page_title="AI 简历抛光机")
 
 # ---- 网页浏览次数记录 ----
 # 使用本地文件计数，适合 Streamlit Sharing/Cloud、非并发高场景。
@@ -77,7 +77,7 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
-st.title("AI 简历极速润色专家")
+st.title("AI 简历抛光机")
 st.caption("大厂资深技术面试官人设 | 结构化 STAR 法则优化 | 多轮交互")
 
 # 初始化 session_state 保存对话历史与提取文本
