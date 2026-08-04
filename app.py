@@ -4,15 +4,61 @@ import json
 import pypdf
 import docx
 from io import BytesIO
-
+import os
 
 st.set_page_config(page_title="AI 简历极速润色专家")
+
+# ---- 网页浏览次数记录 ----
+# 使用本地文件计数，适合 Streamlit Sharing/Cloud、非并发高场景。
+VISIT_COUNTER_FILE = "visit_count.txt"
+
+def get_visit_count():
+    if not os.path.exists(VISIT_COUNTER_FILE):
+        with open(VISIT_COUNTER_FILE, "w") as f:
+            f.write("1")
+        return 1
+    else:
+        try:
+            with open(VISIT_COUNTER_FILE, "r+") as f:
+                count = f.read()
+                count = int(count.strip()) if count.strip().isdigit() else 0
+                count += 1
+                f.seek(0)
+                f.write(str(count))
+                f.truncate()
+            return count
+        except Exception:
+            return None
+
+visit_count = get_visit_count()
+
+# -- 将累计访问次数显示为右下角小标签 --
+visit_count_html = f"""
+    <div style="
+        position: fixed;
+        right: 16px;
+        bottom: 8px;
+        background: rgba(245,245,245,0.85);
+        color: #666;
+        padding: 2px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        z-index: 9999;
+        box-shadow: 0 0 4px 0 #eee;
+        transition: opacity 0.3s;
+        ">
+        访问次数：{visit_count if visit_count else "读取失败"}
+    </div>
+"""
+st.markdown(visit_count_html, unsafe_allow_html=True)
+# -- END 访问次数右下角展示 --
 
 # 获取 API Key
 try:
     api_key = st.secrets.get("DASHSCOPE_API_KEY", "")
 except Exception:
     api_key = ""
+
 
 # 侧边栏配置
 with st.sidebar:
@@ -158,3 +204,8 @@ if st.session_state.messages:
                     st.markdown(reply)
                     st.session_state.messages.append({"role": "assistant", "content": reply})
                     st.rerun()
+
+
+
+           
+           
