@@ -32,11 +32,11 @@ def get_visit_count():
 
 visit_count = get_visit_count()
 
-# -- 将累计访问次数显示为右下角小标签 --
+# -- 将累计访问次数显示为左下角小标签，只显示访问次数 --
 visit_count_html = f"""
     <div style="
         position: fixed;
-        right: 16px;
+        left: 16px;
         bottom: 8px;
         background: rgba(245,245,245,0.85);
         color: #666;
@@ -47,11 +47,11 @@ visit_count_html = f"""
         box-shadow: 0 0 4px 0 #eee;
         transition: opacity 0.3s;
         ">
-        访问次数：{visit_count if visit_count else "读取失败"}
+        {visit_count if visit_count else "读取失败"}
     </div>
 """
 st.markdown(visit_count_html, unsafe_allow_html=True)
-# -- END 访问次数右下角展示 --
+# -- END 访问次数左下角展示 --
 
 # 获取 API Key
 try:
@@ -204,8 +204,4 @@ if st.session_state.messages:
                     st.markdown(reply)
                     st.session_state.messages.append({"role": "assistant", "content": reply})
                     st.rerun()
-
-
-
-           
            
