@@ -75,6 +75,8 @@ CUSTOM_TITLE = """
 """
 st.markdown(CUSTOM_TITLE, unsafe_allow_html=True)
 
+# ========== 新增：自适应文本框颜色样式 ==========
+
 st.markdown("""
     <style>
     .result-block {
@@ -86,21 +88,36 @@ st.markdown("""
         font-size: 16px;
         color: #1a202c;
     }
-    .stTextArea textarea {
-        min-height: 220px;
-        font-size: 16px;
-        font-family: "Menlo", "Consolas", "Microsoft Yahei", monospace;
-        background: #171923 !important;
-        color: #fff !important;
-        caret-color: #fff !important;
+    /* 自适应：检测主题色/明暗模式，合理分配文本框背景与文字色 */
+    @media (prefers-color-scheme: dark) {
+        .stTextArea textarea {
+            background: #23272f !important;
+            color: #f5f6fa !important;
+            caret-color: #f5f6fa !important;
+        }
+        .stTextArea label, .stTextArea textarea::placeholder {
+            color: #eee !important;
+            opacity: 1 !important;
+        }
+        .stTextArea textarea::placeholder {
+            color: #999 !important;
+        }
     }
-    .stTextArea label, .stTextArea textarea::placeholder {
-        color: #fff !important;
-        opacity: 1 !important;
+    @media (prefers-color-scheme: light) {
+        .stTextArea textarea {
+            background: #f1f5fa !important;
+            color: #23272f !important;
+            caret-color: #23272f !important;
+        }
+        .stTextArea label, .stTextArea textarea::placeholder {
+            color: #333 !important;
+            opacity: 1 !important;
+        }
+        .stTextArea textarea::placeholder {
+            color: #666 !important;
+        }
     }
-    .stTextArea textarea::placeholder {
-        color: #bbb !important;
-    }
+    /* 确保按钮风格高可用性 */
     .stButton > button {
         font-weight: bold;
         font-size: 18px;
